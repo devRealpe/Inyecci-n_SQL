@@ -1,5 +1,5 @@
 <?php
-// STUDENTS: list.php
+// STUDENTS: list.php — VULNERABLE A SQL INJECTION
 
 require_once __DIR__ . '/../config/database.php';
 
@@ -8,23 +8,11 @@ function listarEstudiantes($busqueda = '')
     $pdo = getConnection();
 
     if ($busqueda !== '') {
-
-        $query = "SELECT e.nombre, e.apellido, c.nombre_curso
-                  FROM notas n
-                  JOIN estudiantes e ON n.id_estudiante = e.id_estudiante
-                  JOIN cursos c      ON n.id_curso      = c.id_curso
-                  WHERE e.nombre ILIKE '%$busqueda%'
-                  OR e.apellido   ILIKE '%$busqueda%'
-                  ORDER BY e.apellido";
+        $query = "SELECT e.nombre, e.apellido, c.nombre_curso FROM notas n JOIN estudiantes e ON n.id_estudiante = e.id_estudiante JOIN cursos c ON n.id_curso = c.id_curso WHERE e.nombre ILIKE '%$busqueda%'";
     } else {
-        $query = "SELECT e.nombre, e.apellido, c.nombre_curso
-                  FROM notas n
-                  JOIN estudiantes e ON n.id_estudiante = e.id_estudiante
-                  JOIN cursos c      ON n.id_curso      = c.id_curso
-                  ORDER BY e.apellido";
+        $query = "SELECT e.nombre, e.apellido, c.nombre_curso FROM notas n JOIN estudiantes e ON n.id_estudiante = e.id_estudiante JOIN cursos c ON n.id_curso = c.id_curso ORDER BY e.apellido";
     }
 
-    // Guardamos la query en sesión para mostrarla
     $_SESSION['last_query'] = $query;
 
     try {
