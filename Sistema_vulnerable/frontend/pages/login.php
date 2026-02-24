@@ -155,18 +155,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <hr class="divider">
-
-            <!-- Pista de credenciales — fin didáctico -->
-            <div class="hint-box">
-                <strong>⚠️ Entorno de pruebas — SQL Injection Demo</strong>
-                Credenciales válidas: <code>admin</code> / <code>admin123</code><br><br>
-                Intenta inyectar en cualquier campo:<br>
-                <code>' OR '1'='1</code> &nbsp;|&nbsp; <code>' OR 1=1--</code>
-            </div>
         </div>
     </div>
 
-    <!-- ===== PANEL DIDÁCTICO: muestra la query ejecutada ===== -->
     <?php if ($queryMostrar): ?>
         <div class="debug-panel">
             <h3>🔍 Query ejecutada en base de datos</h3>

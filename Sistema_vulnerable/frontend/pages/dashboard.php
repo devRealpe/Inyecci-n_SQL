@@ -311,13 +311,6 @@ $sqlError    = $resultado['error'];
             <div class="query-box"><?= htmlspecialchars($queryActual) ?></div>
         </div>
 
-        <!-- Hint de inyección -->
-        <div class="alert alert-warning" style="margin-top:1rem;">
-            <strong>⚠️ Campo de búsqueda vulnerable.</strong> Prueba en el buscador:<br>
-            <code style="background:rgba(0,0,0,0.2); padding:0.1rem 0.4rem; border-radius:4px;">
-                ' UNION SELECT username, password, rol FROM usuarios--
-            </code>
-        </div>
 
     </main>
 
