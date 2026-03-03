@@ -1,7 +1,6 @@
 <?php
 
 // CONEXIÓN A POSTGRESQL — pg_ nativo (sin PDO)
-// ⚠️  SISTEMA VULNERABLE — SOLO PARA FINES ACADÉMICOS
 
 define('DB_HOST',     'localhost');
 define('DB_PORT',     '5432');
@@ -13,7 +12,11 @@ function getConnection()
 {
     $connStr = sprintf(
         "host=%s port=%s dbname=%s user=%s password=%s",
-        DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+        DB_HOST,
+        DB_PORT,
+        DB_NAME,
+        DB_USER,
+        DB_PASSWORD
     );
 
     $conn = pg_connect($connStr);

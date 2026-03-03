@@ -1,7 +1,6 @@
 <?php
 
 // AUTH: login.php — VULNERABLE (pg_ nativo, sin PDO)
-// ⚠️  SISTEMA VULNERABLE — SOLO PARA FINES ACADÉMICOS
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -18,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn = getConnection();
 
-    // ⚠️ VULNERABLE: concatenación directa sin sanitizar
+    // VULNERABLE: concatenación directa sin sanitizar
     $query = "SELECT * FROM usuarios 
               WHERE username = '$username' 
               AND password = '$password'";

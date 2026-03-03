@@ -1,6 +1,5 @@
 <?php
 // STUDENTS: list.php — VULNERABLE A SQL INJECTION (pg_ nativo)
-// ⚠️  SISTEMA VULNERABLE — SOLO PARA FINES ACADÉMICOS
 // pg_query() permite múltiples sentencias separadas por ;
 
 require_once __DIR__ . '/../config/database.php';
@@ -10,7 +9,7 @@ function listarEstudiantes($busqueda = '')
     $conn = getConnection();
 
     if ($busqueda !== '') {
-        // ⚠️ VULNERABLE: entrada del usuario sin sanitizar
+        // VULNERABLE: entrada del usuario sin sanitizar
         $query = "SELECT e.nombre, e.apellido, c.nombre_curso 
                   FROM notas n 
                   JOIN estudiantes e ON n.id_estudiante = e.id_estudiante 
