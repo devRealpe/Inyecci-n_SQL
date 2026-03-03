@@ -1,0 +1,188 @@
+/* ============================================
+   ESTILOS GLOBALES — TEMA OSCURO MODERNO
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary:    #0f1117;
+    --bg-secondary:  #1a1d27;
+    --bg-card:       #20243a;
+    --accent:        #6c63ff;
+    --accent-hover:  #574fd6;
+    --accent-soft:   rgba(108, 99, 255, 0.15);
+    --danger:        #ff4d4d;
+    --danger-soft:   rgba(255, 77, 77, 0.12);
+    --success:       #4dffb4;
+    --success-soft:  rgba(77, 255, 180, 0.12);
+    --warning:       #ffd166;
+    --warning-soft:  rgba(255, 209, 102, 0.12);
+    --text-primary:  #e8eaf6;
+    --text-secondary:#9198b5;
+    --border:        rgba(255,255,255,0.07);
+    --shadow:        0 8px 32px rgba(0,0,0,0.4);
+    --radius:        12px;
+    --radius-sm:     8px;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---- TARJETA GENÉRICA ---- */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+}
+
+/* ---- INPUTS ---- */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ---- BOTÓN PRIMARIO ---- */
+.btn-primary {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover  { background: var(--accent-hover); }
+.btn-primary:active { transform: scale(0.98); }
+
+/* ---- ALERTAS ---- */
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.alert-danger  { background: var(--danger-soft);  color: var(--danger);  border: 1px solid var(--danger); }
+.alert-success { background: var(--success-soft); color: var(--success); border: 1px solid var(--success); }
+.alert-warning { background: var(--warning-soft); color: var(--warning); border: 1px solid var(--warning); }
+
+/* ---- BADGE ---- */
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-accent  { background: var(--accent-soft);  color: var(--accent); }
+.badge-danger  { background: var(--danger-soft);  color: var(--danger); }
+.badge-success { background: var(--success-soft); color: var(--success); }
+
+/* ---- TABLA ---- */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+thead tr {
+    background: var(--bg-secondary);
+}
+
+thead th {
+    padding: 0.9rem 1.2rem;
+    text-align: left;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+}
+
+tbody tr:hover { background: rgba(108,99,255,0.06); }
+tbody tr:last-child { border-bottom: none; }
+
+tbody td {
+    padding: 0.85rem 1.2rem;
+    color: var(--text-primary);
+}
+
+/* ---- CAJA DE QUERY (didáctica) ---- */
+.query-box {
+    background: #0a0d18;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.2rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #a8dadc;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
