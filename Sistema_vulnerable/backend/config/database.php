@@ -1,6 +1,7 @@
 <?php
 
-// CONEXIÓN A POSTGRESQL
+// CONEXIÓN A POSTGRESQL — pg_ nativo (sin PDO)
+// ⚠️  SISTEMA VULNERABLE — SOLO PARA FINES ACADÉMICOS
 
 define('DB_HOST',     'localhost');
 define('DB_PORT',     '5432');
@@ -10,14 +11,16 @@ define('DB_PASSWORD', 'admin');
 
 function getConnection()
 {
-    $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
+    $connStr = sprintf(
+        "host=%s port=%s dbname=%s user=%s password=%s",
+        DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+    );
 
-    try {
-        $pdo = new PDO($dsn, DB_USER, DB_PASSWORD);
-        // Mostrar errores de SQL
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $pdo;
-    } catch (PDOException $e) {
-        die("Error de conexión: " . $e->getMessage());
+    $conn = pg_connect($connStr);
+
+    if (!$conn) {
+        die("Error de conexión: " . pg_last_error());
     }
+
+    return $conn;
 }

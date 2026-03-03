@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $pdo = getConnection();
 
-        // ✅ PREPARED STATEMENT: los datos del usuario nunca se mezclan con el SQL
+        // PREPARED STATEMENT: los datos del usuario nunca se mezclan con el SQL
         // El "?" es un marcador de posición — la base de datos lo trata como DATO, no como código
         $query = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Usuario o contraseña incorrectos.';
             }
         } catch (PDOException $e) {
-            // ✅ NUNCA mostramos el error real de SQL al usuario en producción
+            // NUNCA mostramos el error real de SQL al usuario en producción
             // Solo registramos internamente (aquí lo mostramos solo para fines didácticos)
             $error = 'Error de sistema. Intenta de nuevo más tarde.';
             // error_log($e->getMessage()); // En producción real: registrar en log del servidor

@@ -1,6 +1,7 @@
 <?php
 
-// AUTH: login.php
+// AUTH: login.php — VULNERABLE (pg_ nativo, sin PDO)
+// ⚠️  SISTEMA VULNERABLE — SOLO PARA FINES ACADÉMICOS
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -8,38 +9,42 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../config/database.php';
 
-$error   = '';
-$query   = '';
+$error = '';
+$query = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $pdo = getConnection();
+    $conn = getConnection();
 
+    // ⚠️ VULNERABLE: concatenación directa sin sanitizar
     $query = "SELECT * FROM usuarios 
               WHERE username = '$username' 
               AND password = '$password'";
 
-    // Guardamos la query en sesión para mostrarla en el dashboard
     $_SESSION['last_query'] = $query;
 
-    try {
-        $stmt   = $pdo->query($query);
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    // pg_query SÍ permite múltiples sentencias separadas por ;
+    $result = @pg_query($conn, $query);
+
+    if ($result === false) {
+        $error = 'Error SQL: ' . pg_last_error($conn);
+    } else {
+        $usuario = pg_fetch_assoc($result);
 
         if ($usuario) {
-            $_SESSION['logueado']  = true;
-            $_SESSION['username']  = $usuario['username'];
-            $_SESSION['rol']       = $usuario['rol'];
+            $_SESSION['logueado'] = true;
+            $_SESSION['username'] = $usuario['username'];
+            $_SESSION['rol']      = $usuario['rol'];
+            pg_free_result($result);
+            pg_close($conn);
             header('Location: ../../frontend/pages/dashboard.php');
             exit;
         } else {
             $error = 'Usuario o contraseña incorrectos.';
         }
-    } catch (PDOException $e) {
-        // Mostramos el error SQL 
-        // Esto muestro lo que rompe la inyección
-        $error = 'Error SQL: ' . $e->getMessage();
     }
+
+    pg_close($conn);
 }

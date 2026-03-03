@@ -1,10 +1,6 @@
 <?php
-// ============================================
-// VISTA: dashboard.php
-// ============================================
 session_start();
 
-// Si no está logueado, redirigir al login
 if (empty($_SESSION['logueado'])) {
     header('Location: login.php');
     exit;
@@ -12,9 +8,8 @@ if (empty($_SESSION['logueado'])) {
 
 require_once __DIR__ . '/../../backend/students/list.php';
 
-$busqueda = $_GET['busqueda'] ?? '';
-$resultado = listarEstudiantes($busqueda);
-
+$busqueda    = $_GET['busqueda'] ?? '';
+$resultado   = listarEstudiantes($busqueda);
 $estudiantes = $resultado['data'];
 $queryActual = $resultado['query'];
 $sqlError    = $resultado['error'];
@@ -35,7 +30,6 @@ $sqlError    = $resultado['error'];
             padding: 0;
         }
 
-        /* ---- NAVBAR ---- */
         .navbar {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border);
@@ -95,7 +89,6 @@ $sqlError    = $resultado['error'];
             background: rgba(255, 77, 77, 0.22);
         }
 
-        /* ---- LAYOUT PRINCIPAL ---- */
         .main {
             max-width: 1100px;
             margin: 2rem auto;
@@ -114,7 +107,6 @@ $sqlError    = $resultado['error'];
             margin-bottom: 1.8rem;
         }
 
-        /* ---- STATS ---- */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -143,7 +135,6 @@ $sqlError    = $resultado['error'];
             color: var(--accent);
         }
 
-        /* ---- BUSCADOR ---- */
         .search-bar {
             display: flex;
             gap: 0.8rem;
@@ -184,7 +175,6 @@ $sqlError    = $resultado['error'];
             background: var(--accent-hover);
         }
 
-        /* ---- PANEL DIDÁCTICO ---- */
         .debug-section {
             margin-top: 2rem;
         }
@@ -207,29 +197,41 @@ $sqlError    = $resultado['error'];
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
         }
+
+        .vuln-hint {
+            background: rgba(255, 209, 102, 0.08);
+            border: 1px solid rgba(255, 209, 102, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 0.7rem 1rem;
+            font-size: 0.8rem;
+            color: #ffd166;
+            margin-bottom: 1rem;
+        }
+
+        .vuln-hint code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.82rem;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- ===== NAVBAR ===== -->
     <nav class="navbar">
-        <div class="navbar-brand">
-            <span>🎓</span> Sistema Universidad
-        </div>
+        <div class="navbar-brand"><span>🎓</span> Sistema Universidad</div>
         <div class="navbar-right">
             <span class="user-pill">👤 <?= htmlspecialchars($_SESSION['username']) ?></span>
             <a href="logout.php" class="btn-logout">Cerrar sesión</a>
         </div>
     </nav>
 
-    <!-- ===== CONTENIDO PRINCIPAL ===== -->
     <main class="main">
-
         <h1 class="page-title">Dashboard Académico</h1>
         <p class="page-subtitle">Listado de estudiantes, cursos y notas registradas.</p>
 
-        <!-- Stats -->
         <div class="stats-row">
             <div class="stat-card">
                 <div class="label">Registros encontrados</div>
@@ -237,13 +239,13 @@ $sqlError    = $resultado['error'];
             </div>
             <div class="stat-card">
                 <div class="label">Usuario activo</div>
-                <div class="value" style="font-size:1rem; padding-top:0.4rem;">
+                <div class="value" style="font-size:1rem;padding-top:0.4rem;">
                     <span class="badge badge-accent"><?= htmlspecialchars($_SESSION['rol']) ?></span>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="label">Estado BD</div>
-                <div class="value" style="font-size:1rem; padding-top:0.4rem;">
+                <div class="value" style="font-size:1rem;padding-top:0.4rem;">
                     <?php if ($sqlError): ?>
                         <span class="badge badge-danger">Error SQL</span>
                     <?php else: ?>
@@ -253,20 +255,16 @@ $sqlError    = $resultado['error'];
             </div>
         </div>
 
-        <!-- Buscador — VULNERABLE -->
         <form method="GET" action="">
             <div class="search-bar">
-                <input
-                    type="text"
-                    name="busqueda"
-                    placeholder="Buscar por nombre o apellido... (campo vulnerable)"
+                <input type="text" name="busqueda"
+                    placeholder="Buscar por nombre... (campo vulnerable — pg_ nativo)"
                     value="<?= htmlspecialchars($busqueda) ?>"
                     autocomplete="off">
                 <button type="submit">Buscar</button>
             </div>
         </form>
 
-        <!-- Tabla de estudiantes -->
         <?php if ($sqlError): ?>
             <div class="alert alert-danger"><?= $sqlError ?></div>
         <?php endif; ?>
@@ -286,8 +284,8 @@ $sqlError    = $resultado['error'];
                         <?php foreach ($estudiantes as $i => $est): ?>
                             <tr>
                                 <td><?= $i + 1 ?></td>
-                                <td><?= htmlspecialchars($est['nombre']   ?? $est[0] ?? '—') ?></td>
-                                <td><?= htmlspecialchars($est['apellido'] ?? $est[1] ?? '—') ?></td>
+                                <td><?= htmlspecialchars($est['nombre']       ?? $est[0] ?? '—') ?></td>
+                                <td><?= htmlspecialchars($est['apellido']     ?? $est[1] ?? '—') ?></td>
                                 <td>
                                     <span class="badge badge-accent">
                                         <?= htmlspecialchars($est['nombre_curso'] ?? $est[2] ?? '—') ?>
@@ -305,13 +303,10 @@ $sqlError    = $resultado['error'];
             </div>
         <?php endif; ?>
 
-        <!-- ===== PANEL DIDÁCTICO: query ejecutada ===== -->
         <div class="debug-section">
             <h3>🔍 Query ejecutada en base de datos</h3>
             <div class="query-box"><?= htmlspecialchars($queryActual) ?></div>
         </div>
-
-
     </main>
 
 </body>

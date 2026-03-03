@@ -1,22 +1,17 @@
 <?php
 // VISTA: login.php
-
 session_start();
 
-// Si ya está logueado, redirigir al dashboard
 if (!empty($_SESSION['logueado'])) {
     header('Location: dashboard.php');
     exit;
 }
 
-// Procesar el formulario incluyendo la lógica del backend
-$error      = '';
+$error        = '';
 $queryMostrar = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/../../backend/auth/login.php';
-    // El archivo login.php redirige si el login es exitoso
-    // Si llegamos aquí, hubo error
     $queryMostrar = $_SESSION['last_query'] ?? '';
 }
 ?>
@@ -75,30 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin: 1.4rem 0;
         }
 
-        .hint-box {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 0.9rem 1rem;
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-        }
-
-        .hint-box strong {
-            color: var(--warning);
-            display: block;
-            margin-bottom: 0.4rem;
-        }
-
-        .hint-box code {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 0.1rem 0.4rem;
-            border-radius: 4px;
-            color: var(--accent);
-            font-size: 0.82rem;
-        }
-
-        /* Panel de query visible — fin didáctico */
         .debug-panel {
             width: 100%;
             max-width: 520px;
@@ -111,12 +82,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
         }
+
+        .vuln-badge {
+            background: rgba(255, 209, 102, 0.12);
+            border: 1px solid #ffd166;
+            color: #ffd166;
+            border-radius: 8px;
+            padding: 0.6rem 0.9rem;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- ===== FORMULARIO DE LOGIN ===== -->
     <div class="login-wrapper">
         <div class="card">
             <div class="login-header">
@@ -132,25 +113,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" action="">
                 <div class="form-group">
                     <label for="username">Usuario</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        placeholder="Ingresa tu usuario"
+                    <input type="text" id="username" name="username"
+                        placeholder="Ej: admin'--"
                         autocomplete="off"
                         value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
                 </div>
-
                 <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
+                    <input type="password" id="password" name="password"
                         placeholder="Ingresa tu contraseña"
                         autocomplete="off">
                 </div>
-
                 <button type="submit" class="btn-primary">Iniciar sesión</button>
             </form>
 
